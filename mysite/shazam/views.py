@@ -6,6 +6,7 @@ from math import log
 from scipy.fftpack import fft
 from scipy.io import wavfile as wav
 import numpy as np
+from shazam.models import wavFiles
 # Create your views here.
 
 #misc functions
@@ -15,13 +16,13 @@ def getIndex(value, lst):
     for j in range(len(lst)):
         if lst[j][0] <= value and lst[j][1] >= value:
             return j
-def getfourpoints(chunk,freq):
+def getfourpoints(chunk,freq,n):
 #     print("here")
     result=[0,0,0,0]
     index=0
     value=0
     Fs=44100
-    n = len(datatum) # length of the signal
+    # n = len(datatum) # length of the signal
     k = np.arange(n)
     T = n/Fs
     frq = k/T # two sides frequency range
@@ -55,7 +56,7 @@ def check(inp, library, freq):
         else:
             cmatch = fft(inp[int(i*size) : int((i+1)*size)])
             cmatch = cmatch[0:len(cmatch)//2]
-        tf = (getfourpoints(cmatch, freq))
+        tf = (getfourpoints(cmatch, freq,len(inp)))
         tag=hash(sum(tf))
 #         print("ajhdku")
 #         print(tag)
@@ -73,8 +74,10 @@ def check(inp, library, freq):
             temp_set=temp_set.intersection(tag_list[i])
         print("MATCH FOUND")
         print(temp_set)
+        return temp_set
     else:
         print("MATCH NOT FOUND")
+        return NULL
         
 
 
@@ -82,25 +85,33 @@ def index(request):
     if request.method == 'POST':
         print("post is there")    
         wavFile = request.FILES.get('wavFile')
+        objct = wavFiles.objects.all()
         
-        ratetum, datatum = wav.read(wavFile)#1st file in database
+        bins = [[40, 80], [80, 120], [120, 180], [180, 300]]
+        # name = "tumsehi"
+        db = musicsamplelibrary("Samplelibrary", bins, 1024)
+
+        for obj in objct:
+            # print(obj.file)
+            # print(obj.name)
+            ratetum, datatum = wav.read(obj.file)#1st file in database
+            if type(datatum[0])!=int:
+        #     print("i am here")
+                datatum=datatum[:,0]
+            db.addtrack(obj.name, datatum)
+        print(db.db)
 
         ratetumcheck,datatumcheck=wav.read(wavFile)#user is inputting this wav file
         #check track
-        ratesup,dataup=wav.read(wavFile) #2nd wav file in database
-
-        bins = [[40, 80], [80, 120], [120, 180], [180, 300]]
-        name = "tumsehi"
-        db = musicsamplelibrary("Samplelibrary", bins, 1024)
-        if type(datatum[0])!=int:
-        #     print("i am here")
-            datatum=datatum[:,0]
-            dataup=dataup[:,0]
-
-        db.addtrack("tumsehi", datatum)
-        db.addtrack("uptown",dataup)
+        # ratesup,dataup=wav.read(wavFile) #2nd wav file in database
+        # if type(datatumcheck[0])!=int:
+        #         datatumcheck=datatumcheck[:,0]
+        temp_set = check(datatumcheck,db.db,bins)
+            # dataup=dataup[:,0]
+        
+        # db.addtrack("uptown",dataup)
         #calling the main check function
-        check(datatumcheck,db.db,bins)
+        return render(request,"shazam/result.html",{"temp_set":temp_set})
 
     return render(request,"shazam/index.html")
 

@@ -1,6 +1,13 @@
 from django.db import models
-
+from scipy.fftpack import fft
+from scipy.io import wavfile
+from math import log
+from scipy.io import wavfile as wav
+import numpy as np
 # Create your models here.
+class wavFiles(models.Model):
+    file = models.FileField(upload_to='documents/')
+    name = models.CharField(max_length=80,default=" ")
 
 class musicsamplelibrary(object):
     
@@ -18,13 +25,13 @@ class musicsamplelibrary(object):
             if freq[j][0]<=value and freq[j][1]>=value:
                 return j
        
-    def getfourpoints(self,chunk,freq):
+    def getfourpoints(self,chunk,freq,n):
 #         print("here")
         result=[0,0,0,0]
         index=0
         value=0
         Fs=44100
-        n = len(datatum) # length of the signal
+        # n = len(datatum) # length of the signal
         k = np.arange(n)
         T = n/Fs
         frq = k/T # two sides frequency range
@@ -55,7 +62,7 @@ class musicsamplelibrary(object):
             else:
                  chunk = fft(track[int((i)*self.size) : int((i+1)*self.size)])
                  chunk=chunk[0:len(chunk)//2]
-            tf = self.getfourpoints(chunk,self.freq)
+            tf = self.getfourpoints(chunk,self.freq,len(track))
             tag=hash(sum(tf))
             if tag in self.db.keys():
                 if name not in self.db[tag]:
