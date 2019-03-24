@@ -1,5 +1,197 @@
 <!DOCTYPE html>
 <html>
+<title>Shazam Music Recognition</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<style>
+body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", sans-serif}
+
+body, html {
+  height: 100%;
+  line-height: 1.8;
+  background: #888;
+
+  text-align: center;
+}
+
+/* Full height image header */
+.bgimg-1 {
+  background-position: center;
+  background-size: cover;
+  background-image: url("https://edecorati.com/data/out/4/guitar-wallpapers_291093463.jpg");
+  min-height: 100%;
+}
+
+.w3-bar .w3-button {
+  padding: 16px;
+}
+
+h1 {text-align:center;}
+p {text-align:center;}
+
+
+.svg-wrapper {
+  height: 60px;
+	margin: 0 auto;
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 320px;
+}
+
+.shape {
+  fill: transparent;
+  stroke-dasharray: 140 540;
+  stroke-dashoffset: -474;
+  stroke-width: 16px;
+  stroke: #ffffff;
+}
+
+.text {
+  color: #fff;
+  font-family: 'Roboto Condensed';
+  font-size: 22px;
+  letter-spacing: 8px;
+  line-height: 32px;
+  position: relative;
+  top: -60px;
+}
+
+@keyframes draw {
+  0% {
+    stroke-dasharray: 140 540;
+    stroke-dashoffset: -474;
+    stroke-width: 16px;
+  }
+  100% {
+    stroke-dasharray: 760;
+    stroke-dashoffset: 0;
+    stroke-width: 8px;
+  }
+}
+
+.svg-wrapper:hover .shape {
+  -webkit-animation: 0.5s draw linear forwards;
+  animation: 0.5s draw linear forwards;
+}
+
+</style>
+
+
+
+<body>
+
+
+<div class="w3-top">
+  <div class="w3-bar w3-white w3-card" id="myNavbar">
+    <a href="#home" class="w3-bar-item w3-button w3-wide">SHAZAM</a>
+    <!-- Right-sided navbar links -->
+    <div class="w3-right w3-hide-small">
+      <a href="#about" class="w3-bar-item w3-button">ABOUT</a>
+
+    </div>
+    <a href="javascript:void(0)" class="w3-bar-item w3-button w3-right w3-hide-large w3-hide-medium" onclick="w3_open()">
+      <i class="fa fa-bars"></i>
+    </a>
+  </div>
+</div>
+
+
+<nav class="w3-sidebar w3-bar-block w3-black w3-card w3-animate-left w3-hide-medium w3-hide-large" style="display:none" id="mySidebar">
+  <a href="javascript:void(0)" onclick="w3_close()" class="w3-bar-item w3-button w3-large w3-padding-16">Close ×</a>
+  <a href="#about" onclick="w3_close()" class="w3-bar-item w3-button">ABOUT</a>
+
+</nav>
+
+
+<header class="bgimg-1 w3-display-container w3-grayscale-min" id="home">
+  <div class="w3-display-left w3-text-white" style="padding:48px">
+
+<span > <h1><p><strong>SHAZAM</strong></p></h1></span><br>
+
+    <span class="w3-jumbo w3-hide-small">Click the button to start listening...</span><br>
+    <span class="w3-xxlarge w3-hide-large w3-hide-medium">SHAZAM</span><br>
+      <br><br><br>
+
+
+      <p><a  class="svg-wrapper"> <svg height="60" width="320" xmlns="http://www.w3.org/2000/svg">
+    <rect class="shape" height="60" width="320"></rect>
+  </svg>
+          <div class="text">L I S T E N</div></a></p>
+</div>
+</div>
+
+</header>
+
+
+<div class="w3-container w3-light-grey" style="padding:128px 16px" id="search">
+  <div class="w3-row-padding">
+    <div class="w3-col m6">
+     
+        <form action="/shazam/" enctype="multipart/form-data" method="POST" >
+            {% csrf_token %}
+          
+        
+            input .wav file
+        
+            <input name="wavFile" type="file" multiple/>
+                
+            <br><br><br>
+                <button type="submit">
+                    submit
+                </button>
+        </form>
+
+      
+    </div>
+  </div>
+</div>
+
+<!-- About Section -->
+<div class="w3-container" style="padding:128px 16px" id="about">
+  <h3 class="w3-center">ABOUT SHAZAM</h3>
+  <p class="w3-center w3-large">Key features </p>
+  <div class="w3-row-padding w3-center" style="margin-top:64px">
+    <div class="w3-half">
+      <i class="fa fa-search w3-margin-bottom w3-jumbo w3-center"></i>
+      <p class="w3-large">Application</p>
+      <p>A Small Scale Model Of the Actual Shazam Application</p>
+    </div>
+
+    <div class="w3-half" >
+      <i class="fa fa-music w3-margin-bottom w3-jumbo"></i >
+      <p class="w3-large">Search</p>
+      <p >Play the song for a minimum of 5 seconds and it recognizes the song for you</p>
+    </div>
+
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+<!-- <!DOCTYPE html>
+<html>
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -11,21 +203,9 @@
 <body>
 
     
-<form action="/shazam/" enctype="multipart/form-data" method="POST" >
-    {% csrf_token %}
-  
 
-    input .wav file
-
-    <input name="wavFile" type="file" multiple/>
-        
-    <br><br><br>
-        <button type="submit">
-            submit
-        </button>
-</form>
     
 
 </body>
 
-</html>
+</html> -->
