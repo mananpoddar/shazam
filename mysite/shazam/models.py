@@ -9,6 +9,7 @@ class wavFiles(models.Model):
     file = models.FileField(upload_to='documents/')
     name = models.CharField(max_length=80,default=" ")
 
+
 class musicsamplelibrary(object):
     
     def __init__(self,name,freq,size):
@@ -25,13 +26,13 @@ class musicsamplelibrary(object):
             if freq[j][0]<=value and freq[j][1]>=value:
                 return j
        
-    def getfourpoints(self,chunk,freq,n):
+    def getfourpoints(self,chunk,freq,track):
 #         print("here")
         result=[0,0,0,0]
         index=0
         value=0
         Fs=44100
-        # n = len(datatum) # length of the signal
+        n = len(track) # length of the signal
         k = np.arange(n)
         T = n/Fs
         frq = k/T # two sides frequency range
@@ -62,13 +63,13 @@ class musicsamplelibrary(object):
             else:
                  chunk = fft(track[int((i)*self.size) : int((i+1)*self.size)])
                  chunk=chunk[0:len(chunk)//2]
-            tf = self.getfourpoints(chunk,self.freq,len(track))
+            tf = self.getfourpoints(chunk,self.freq,track)
             tag=hash(sum(tf))
             if tag in self.db.keys():
-                if name not in self.db[tag]:
-                    self.db[tag].append(name)
+#                 if name not in self.db[tag]:
+                self.db[tag].append(name)
             else:
                 self.db[tag]=[name]
             
         print("inserted in database")
-        print(self.db)
+#         print(self.db)

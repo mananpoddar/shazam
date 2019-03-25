@@ -121,7 +121,23 @@ p {text-align:center;}
       <p><a  class="svg-wrapper"> <svg height="60" width="320" xmlns="http://www.w3.org/2000/svg">
     <rect class="shape" height="60" width="320"></rect>
   </svg>
-          <div class="text">L I S T E N</div></a></p>
+          <div class="text">
+
+            <form action="/shazam/" enctype="multipart/form-data" method="POST" >
+              {% csrf_token %}
+            
+          
+          
+              <input name="wavFile" type="file" multiple/>
+                  
+              <br><br><br>
+                  <button type="submit">
+                      submit
+                  </button>
+          </form>
+
+
+          </div></a></p>
 </div>
 </div>
 
@@ -132,19 +148,7 @@ p {text-align:center;}
   <div class="w3-row-padding">
     <div class="w3-col m6">
      
-        <form action="/shazam/" enctype="multipart/form-data" method="POST" >
-            {% csrf_token %}
-          
-        
-            input .wav file
-        
-            <input name="wavFile" type="file" multiple/>
-                
-            <br><br><br>
-                <button type="submit">
-                    submit
-                </button>
-        </form>
+       
 
       
     </div>
